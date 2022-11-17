@@ -1,27 +1,26 @@
 package org.example;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.lang.reflect.Type;
 
 
 public class Book {
     public int id;
     public String name;
     public String author;
+
     public boolean loaned;
 
-    public Book(int id, String name, String author, boolean loaned) throws FileNotFoundException {
+    public Book(int id, String name, String author, boolean loaned ) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.loaned = loaned;
+
     }
 
+    public Book(){
+
+    }
 
 
     public int getId() {
@@ -48,21 +47,15 @@ public class Book {
         this.author = author;
     }
 
-    public boolean isLoaned() {
-        return loaned;
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", loaned=" + loaned +
+                '}';
     }
-
-    public void setLoaned(boolean loaned) {
-        this.loaned = loaned;
-    }
-    Gson gson = new Gson();
-    public void readJson() throws FileNotFoundException {
-        JsonReader reader = new JsonReader(new FileReader("/books.json"));
-        Book data = gson.fromJson(reader, Book.class);
-        System.out.println(data);
-    }
-
-
-    }
+}
     //Loaning a book out (or book is loaned)
 

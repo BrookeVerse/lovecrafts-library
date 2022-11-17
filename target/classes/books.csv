@@ -1,6 +1,7 @@
-name, author
-The Call of Cthulhu, H P LoveCraft
-The Cats of Ulthar, H P LoveCraft
-The Outsider, H P LoveCraft
-The Dreams in the Witch House, H P LoveCraft
-The Dunwich Horror, H P LoveCraft
+id,name, author
+1, The Call of Cthulhu, H P LoveCraft
+2, The Cats of Ulthar, H P LoveCraft
+3, The Outsider, H P LoveCraft
+4, The Dreams in the Witch House, H P LoveCraft
+5, The Dunwich Horror, H P LoveCraft
+6, Pickman's Model, H P LoveCraft
