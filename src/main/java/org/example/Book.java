@@ -49,12 +49,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", author='" + author + '\'' +
-                ", loaned=" + loaned +
-                '}';
+        return  id +": Title: "+ name+ " Author: " + author + " unavailable: " + loaned+ " \n" ;
     }
 }
     //Loaning a book out (or book is loaned)

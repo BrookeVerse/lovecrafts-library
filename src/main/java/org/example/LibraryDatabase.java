@@ -1,23 +1,23 @@
 package org.example;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.json.CDL;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class LibraryDatabase {
-//    HashSet<Book> books = new HashSet<>(50);
 
 
-public void csvToJson (){
+    public void csvToJson (){
     InputStream is = Book.class.getResourceAsStream("/books.csv");
     String csv = new BufferedReader(
             new InputStreamReader(Objects.requireNonNull(is), StandardCharsets.UTF_8))
@@ -31,6 +31,17 @@ public void csvToJson (){
         e.printStackTrace();
     }
 }
+
+    public void readJson() {
+        Type listType = new TypeToken<List<Book>>() {
+        }.getType();
+        try {
+            List<Book> books = new Gson().fromJson(new FileReader("C:\\Users\\Brook\\Documents\\puffin-nology\\Java\\lovecrafts-library\\books.json"), listType);
+            System.out.println(books.toString().replace(",", ""));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 
