@@ -53,6 +53,7 @@ public class LibraryDatabase {
     }
 
     public void lendBook() {
+
         allBooks = readJson();
         System.out.println(allBooks.toString().replace(",", ""));
         System.out.println("What Book would you like to lend using Id?");
@@ -60,8 +61,7 @@ public class LibraryDatabase {
         if(allBooks.contains(allBooks.get(choice - 1))){
             System.out.println(allBooks.get(choice -1));
             if (!allBooks.get(choice -1).isLoaned()){
-                allBooks.get(choice -1).setLoaned(true);
-                updateCSV(String.valueOf(choice), "true");
+                updateCSV(allBooks.get(choice -1).getName(), "true");
                 System.out.println(allBooks.toString().replace(",", ""));
             } else {
                 System.out.println("Sorry Not Available");
@@ -71,17 +71,16 @@ public class LibraryDatabase {
 
     }
 
-    String fileName = "/books.csv";
+
 
     public void updateCSV( String editTerm, String newLoaned){
-
-
-       String tempFile = "/temp.csv";
+        String fileName = "C:\\Users\\Brook\\Documents\\puffin-nology\\Java\\lovecrafts-library\\src\\main\\resources\\books.csv";
+       String tempFile = "temp.csv";
        File oldFile = new File(fileName);
        File newFile = new File(tempFile);
        String id = ""; String name = ""; String author = ""; String loaned = "";
         try{
-           FileWriter fw = new FileWriter(tempFile, true);
+           FileWriter fw = new FileWriter(tempFile);
            BufferedWriter bw = new BufferedWriter(fw);
            PrintWriter pw = new PrintWriter(bw);
             Scanner x = new Scanner(new File(fileName));
@@ -92,7 +91,7 @@ public class LibraryDatabase {
                name = x.next();
                author = x.next();
                loaned = x.next();
-               if (id.equals(editTerm)){
+               if (name.equals(editTerm)){
                    pw.println(id + "," + name + "," + name + "," + newLoaned);
                } else {
                    pw.println(id + "," + name + "," + author + "," + loaned);
@@ -105,7 +104,7 @@ public class LibraryDatabase {
            File dump = new File(fileName);
            newFile.renameTo(dump);
         }catch (Exception e){
-            System.out.println("Error");
+            e.printStackTrace();
         }
     }
 }

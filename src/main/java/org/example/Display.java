@@ -17,11 +17,14 @@ public class Display {
                 "                                                                                 __/ |\n" +
                 "                                                                                |___/");
         System.out.println("Welcome to Lovecraft's Library where you will find all Lovecraftian titles you can dream of.");
+        LibraryDatabase db = new LibraryDatabase();
+        db.csvToJson();
+
         userOptions();
+
     }
     public void allBooks(){
         LibraryDatabase db = new LibraryDatabase();
-        db.csvToJson();
         db.readJson();
     }
 
