@@ -1,7 +1,8 @@
-id,name, author
-1, The Call of Cthulhu, H P LoveCraft
-2, The Cats of Ulthar, H P LoveCraft
-3, The Outsider, H P LoveCraft
-4, The Dreams in the Witch House, H P LoveCraft
-5, The Dunwich Horror, H P LoveCraft
-6, Pickman's Model, H P LoveCraft
+id,name, author, loaned
+1, The Call of Cthulhu, H P LoveCraft, false
+2, The Cats of Ulthar, H P LoveCraft, false
+3, The Outsider, H P LoveCraft, false
+4, The Dreams in the Witch House, H P LoveCraft, false
+5, The Dunwich Horror, H P LoveCraft, false
+6, Pickman's Model, H P LoveCraft, false
+7, The Nameless City, H P LoveCraft, false

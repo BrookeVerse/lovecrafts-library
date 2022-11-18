@@ -12,4 +12,7 @@ public abstract class People {
         this.admin = admin;
     }
 
+    public People() {
+
+    }
 }

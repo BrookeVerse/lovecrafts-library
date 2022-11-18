@@ -4,6 +4,7 @@ package org.example;
 
 
 public class Book {
+
     public int id;
     public String name;
     public String author;
@@ -45,6 +46,14 @@ public class Book {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public boolean isLoaned() {
+        return loaned;
+    }
+
+    public void setLoaned(boolean loaned) {
+        this.loaned = loaned;
     }
 
     @Override
