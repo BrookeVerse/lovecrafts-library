@@ -1,44 +1,44 @@
 [
   {
-    "name": "The Call of Cthulhu",
-    "loaned": "false",
+    "loaned": "true",
     "id": "1",
-    "author": "H P LoveCraft"
+    "title": " The Call of Cthulhu",
+    "author": " H P LoveCraft"
   },
   {
-    "name": "The Cats of Ulthar",
-    "loaned": "false",
+    "loaned": "true",
     "id": "2",
-    "author": "H P LoveCraft"
+    "title": " The Cats of Ulthar",
+    "author": " H P LoveCraft"
   },
   {
-    "name": "The Outsider",
-    "loaned": "false",
+    "loaned": "true",
     "id": "3",
-    "author": "H P LoveCraft"
+    "title": " The Outsider",
+    "author": " H P LoveCraft"
   },
   {
-    "name": "The Dreams in the Witch House",
     "loaned": "false",
     "id": "4",
-    "author": "H P LoveCraft"
+    "title": " The Dreams in the Witch House",
+    "author": " H P LoveCraft"
   },
   {
-    "name": "The Dunwich Horror",
     "loaned": "false",
     "id": "5",
-    "author": "H P LoveCraft"
+    "title": " The Dunwich Horror",
+    "author": " H P LoveCraft"
   },
   {
-    "name": "Pickman's Model",
     "loaned": "false",
     "id": "6",
-    "author": "H P LoveCraft"
+    "title": " Pickman's Model",
+    "author": " H P LoveCraft"
   },
   {
-    "name": "The Nameless City",
     "loaned": "false",
     "id": "7",
-    "author": "H P LoveCraft"
+    "title": " The Nameless City",
+    "author": " H P LoveCraft"
   }
 ]

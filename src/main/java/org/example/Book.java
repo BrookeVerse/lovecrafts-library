@@ -6,23 +6,17 @@ package org.example;
 public class Book {
 
     public int id;
-    public String name;
+    public String title;
     public String author;
 
     public boolean loaned;
 
-    public Book(int id, String name, String author, boolean loaned ) {
+    public Book(int id, String title, String author, boolean loaned) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.author = author;
         this.loaned = loaned;
-
     }
-
-    public Book(){
-
-    }
-
 
     public int getId() {
         return id;
@@ -32,12 +26,12 @@ public class Book {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getAuthor() {
@@ -58,7 +52,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return  id +": Title: "+ name+ " Author: " + author + " unavailable: " + loaned+ " \n" ;
+        return  id +": Title: "+ title+ " Author: " + author + " unavailable: " + loaned+ " \n" ;
     }
 }
     //Loaning a book out (or book is loaned)

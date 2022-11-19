@@ -2,18 +2,18 @@ package org.example;
 
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 import org.json.CDL;
 
-import javax.xml.crypto.Data;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
@@ -52,7 +52,7 @@ public class LibraryDatabase {
         return allBooks;
     }
 
-    public void lendBook() {
+    public void lendBook() throws IOException, CsvException {
 
         allBooks = readJson();
         System.out.println(allBooks.toString().replace(",", ""));
@@ -61,8 +61,8 @@ public class LibraryDatabase {
         if(allBooks.contains(allBooks.get(choice - 1))){
             System.out.println(allBooks.get(choice -1));
             if (!allBooks.get(choice -1).isLoaned()){
-                updateCSV(allBooks.get(choice -1).getName(), "true");
-                System.out.println(allBooks.toString().replace(",", ""));
+                updateCSV(choice);
+
             } else {
                 System.out.println("Sorry Not Available");
             }
@@ -73,39 +73,16 @@ public class LibraryDatabase {
 
 
 
-    public void updateCSV( String editTerm, String newLoaned){
+    public void updateCSV( int editTerm) throws IOException, CsvException {
         String fileName = "C:\\Users\\Brook\\Documents\\puffin-nology\\Java\\lovecrafts-library\\src\\main\\resources\\books.csv";
-       String tempFile = "temp.csv";
-       File oldFile = new File(fileName);
-       File newFile = new File(tempFile);
-       String id = ""; String name = ""; String author = ""; String loaned = "";
-        try{
-           FileWriter fw = new FileWriter(tempFile);
-           BufferedWriter bw = new BufferedWriter(fw);
-           PrintWriter pw = new PrintWriter(bw);
-            Scanner x = new Scanner(new File(fileName));
-           x.useDelimiter("[,\n]");
+        CSVReader reader = new CSVReader( new FileReader(fileName));
+        List<String []> cvsBody = reader.readAll();
+        cvsBody.get(editTerm)[3] = "true";
+        CSVWriter writer = new CSVWriter(new FileWriter(fileName));
+        writer.writeAll(cvsBody);
+        writer.flush();
 
-           while (x.hasNext()){
-               id = x.next();
-               name = x.next();
-               author = x.next();
-               loaned = x.next();
-               if (name.equals(editTerm)){
-                   pw.println(id + "," + name + "," + name + "," + newLoaned);
-               } else {
-                   pw.println(id + "," + name + "," + author + "," + loaned);
-               }
-           }
-           x.close();
-           pw.flush();
-           pw.close();
-           oldFile.delete();
-           File dump = new File(fileName);
-           newFile.renameTo(dump);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        csvToJson();
     }
 }
 
