@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Display {
     Scanner scanner = new Scanner(System.in);
-
+    LibraryDatabase db = new LibraryDatabase();
 
     public void welcomeMessage() throws IOException, CsvException {
 
@@ -20,19 +20,16 @@ public class Display {
                 "                                                                                 __/ |\n" +
                 "                                                                                |___/");
         System.out.println("Welcome to Lovecraft's Library where you will find all Lovecraftian titles you can dream of.");
-        LibraryDatabase db = new LibraryDatabase();
         db.csvToJson();
         userOptions();
 
     }
     public void allBooks(){
-        LibraryDatabase db = new LibraryDatabase();
         db.csvToJson();
         db.readJson();
     }
 
     public void userOptions() throws IOException, CsvException {
-        LibraryDatabase db = new LibraryDatabase();
         System.out.println("What would you like to do today?");
         System.out.println("(1) Lend A Book \n(2) Return A Book \n(3) See All Books\n(4) Exit");
         String choice = scanner.next();
@@ -42,7 +39,7 @@ public class Display {
                 userOptions();
                 break;
             case "2":
-                System.out.println("You put it back");
+                db.returnBook();
                 userOptions();
             case "3":
                 allBooks();

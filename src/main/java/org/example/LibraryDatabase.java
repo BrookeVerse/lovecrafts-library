@@ -1,41 +1,39 @@
 package org.example;
 
 
+import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
-import org.json.CDL;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class LibraryDatabase {
     private List<Book> allBooks;
 
     Scanner scanner = new Scanner(System.in);
-
     public void csvToJson() {
-        InputStream is = Book.class.getResourceAsStream("/books.csv");
-        String csv = new BufferedReader(
-                new InputStreamReader(Objects.requireNonNull(is), StandardCharsets.UTF_8))
-                .lines()
-                .collect(Collectors.joining("\n"));
-
+        File input = new File("C:\\Users\\Brook\\Documents\\puffin-nology\\Java\\lovecrafts-library\\src\\main\\resources\\books.csv");
+        CsvSchema csv = CsvSchema.emptySchema().withHeader();
+        CsvMapper csvMapper = new CsvMapper();
         try {
-            String json = CDL.toJSONArray(csv).toString(2);
-            Files.write(Path.of("books.json"), json.getBytes());
+            MappingIterator<Map<String, Book>>mappingIterator = csvMapper.reader().forType(Map.class).with(csv).readValues(input);
+            List<Map<String, Book>> list = mappingIterator.readAll();
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(Paths.get("books.json").toFile(), list);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -53,7 +51,7 @@ public class LibraryDatabase {
     }
 
     public void lendBook() throws IOException, CsvException {
-
+        String loaned = "true";
         allBooks = readJson();
         System.out.println(allBooks.toString().replace(",", ""));
         System.out.println("What Book would you like to lend using Id?");
@@ -61,28 +59,40 @@ public class LibraryDatabase {
         if(allBooks.contains(allBooks.get(choice - 1))){
             System.out.println(allBooks.get(choice -1));
             if (!allBooks.get(choice -1).isLoaned()){
-                updateCSV(choice);
-
+                updateCSV(choice, loaned);
             } else {
                 System.out.println("Sorry Not Available");
             }
         }
+    }
 
-
+    public void returnBook() throws IOException, CsvException {
+        String loaned = "false";
+        allBooks = readJson();
+        System.out.println(allBooks.toString().replace(",", ""));
+        System.out.println("What Book would you like to return using Id?");
+        int choice = scanner.nextInt();
+        if(allBooks.contains(allBooks.get(choice - 1))){
+            System.out.println(allBooks.get(choice -1));
+            if (allBooks.get(choice -1).isLoaned()){
+                updateCSV(choice, loaned);
+            } else {
+                System.out.println("Sorry that book is not loaned");
+            }
+        }
     }
 
 
 
-    public void updateCSV( int editTerm) throws IOException, CsvException {
+    public void updateCSV( int editTerm, String loaned) throws IOException, CsvException {
         String fileName = "C:\\Users\\Brook\\Documents\\puffin-nology\\Java\\lovecrafts-library\\src\\main\\resources\\books.csv";
         CSVReader reader = new CSVReader( new FileReader(fileName));
         List<String []> cvsBody = reader.readAll();
-        cvsBody.get(editTerm)[3] = "true";
+        cvsBody.get(editTerm)[3] = loaned;
         CSVWriter writer = new CSVWriter(new FileWriter(fileName));
         writer.writeAll(cvsBody);
         writer.flush();
-
-        csvToJson();
+        System.out.println("You have lent " + Arrays.toString(cvsBody.get(editTerm)) +"\nPlease bring it back in two weeks.");
     }
 }
 
