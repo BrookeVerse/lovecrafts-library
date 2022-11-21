@@ -14,7 +14,6 @@ import com.opencsv.exceptions.CsvException;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -28,7 +27,7 @@ public class LibraryDatabase {
         CsvSchema csv = CsvSchema.emptySchema().withHeader();
         CsvMapper csvMapper = new CsvMapper();
         try {
-            MappingIterator<Map<String, Book>>mappingIterator = csvMapper.reader().forType(Map.class).with(csv).readValues(input);
+            MappingIterator<Map<String, Book>> mappingIterator = csvMapper.reader().forType(Map.class).with(csv).readValues(input);
             List<Map<String, Book>> list = mappingIterator.readAll();
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(Paths.get("books.json").toFile(), list);
@@ -60,6 +59,9 @@ public class LibraryDatabase {
             System.out.println(allBooks.get(choice -1));
             if (!allBooks.get(choice -1).isLoaned()){
                 updateCSV(choice, loaned);
+                System.out.println("You have lent " + allBooks.get(choice - 1) +"\nPlease bring it back in two weeks.");
+                csvToJson();
+                readJson();
             } else {
                 System.out.println("Sorry Not Available");
             }
@@ -76,6 +78,7 @@ public class LibraryDatabase {
             System.out.println(allBooks.get(choice -1));
             if (allBooks.get(choice -1).isLoaned()){
                 updateCSV(choice, loaned);
+                System.out.println("Thank you for returning " + allBooks.get(choice - 1));
             } else {
                 System.out.println("Sorry that book is not loaned");
             }
@@ -92,7 +95,6 @@ public class LibraryDatabase {
         CSVWriter writer = new CSVWriter(new FileWriter(fileName));
         writer.writeAll(cvsBody);
         writer.flush();
-        System.out.println("You have lent " + Arrays.toString(cvsBody.get(editTerm)) +"\nPlease bring it back in two weeks.");
     }
 }
 

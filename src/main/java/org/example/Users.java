@@ -1,22 +1,20 @@
 package org.example;
 
-import org.json.JSONObject;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
+import java.util.List;
 
-public class Users extends People{
+public class Users{
     public int id;
     public String name;
+    public String password;
+    public List<Book> bookedBorrowed;
     public boolean admin;
 
-    public Users(int id, String name, boolean admin) {
-        super(id, name, admin);
-    }
-
-    public Users() {
-        super();
+    public Users(int id, String name, String password, boolean admin) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.admin = admin;
     }
 
     public int getId() {
@@ -35,6 +33,14 @@ public class Users extends People{
         this.name = name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public boolean isAdmin() {
         return admin;
     }
@@ -43,26 +49,9 @@ public class Users extends People{
         this.admin = admin;
     }
 
-    public void createUser(){
-        JSONObject user = new JSONObject();
-        Scanner name = new Scanner(System.in);
-        System.out.println("Enter your name:");
-        String firstName = name.next();
-        user.put("First_Name", firstName);
-
-
-        Scanner name1 = new Scanner(System.in);
-        System.out.println("Enter your lastName:");
-        String lastName = name1.next();
-        user.put("Last_Name",lastName);
-
-
-        try {
-            FileWriter file = new FileWriter("user.json");
-            file.write(user.toString());
-            file.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    @Override
+    public String toString() {
+        return  id + ": name: " + name + " admin:" + admin + " \n";
     }
 }
+
