@@ -6,16 +6,13 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Librarian {
 
@@ -100,7 +97,7 @@ public class Librarian {
         Type listType = new TypeToken<List<Users>>() {
         }.getType();
         try {
-            List<Users> users = new Gson().fromJson(new FileReader("C:\\Users\\Brook\\Documents\\puffin-nology\\Java\\lovecrafts-library\\librarians.json"), listType);
+            List<Users> users = new Gson().fromJson(new FileReader("C:\\Users\\Brook\\Documents\\puffin-nology\\Java\\lovecrafts-library\\users.json"), listType);
             System.out.println(users.toString().replace(",", ""));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -111,8 +108,8 @@ public class Librarian {
         CsvSchema csv = CsvSchema.emptySchema().withHeader();
         CsvMapper csvMapper = new CsvMapper();
         try {
-            MappingIterator<Map<String, Book>> mappingIterator = csvMapper.reader().forType(Map.class).with(csv).readValues(input);
-            List<Map<String, Book>> list = mappingIterator.readAll();
+            MappingIterator<Map<String, Librarian>> mappingIterator = csvMapper.reader().forType(Map.class).with(csv).readValues(input);
+            List<Map<String, Librarian>> list = mappingIterator.readAll();
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(Paths.get("librarians.json").toFile(), list);
         } catch (IOException e) {
@@ -137,6 +134,40 @@ public class Librarian {
         CSVWriter writer = new CSVWriter(new FileWriter(fileName, true));
         writer.writeNext(newRow);
         writer.close();
+    }
+
+    public void reportAllLoaned(){
+        ArrayList<Book> result = new ArrayList<Book>();
+        Type listType = new TypeToken<List<Book>>() {
+        }.getType();
+        try {
+            List<Book> books = new Gson().fromJson(new FileReader("C:\\Users\\Brook\\Documents\\puffin-nology\\Java\\lovecrafts-library\\books.json"), listType);
+                for (Book book: books){
+                    if (book.isLoaned()){
+                        result.add(book);
+                    }
+                }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(result.toString().replace(",", ""));
+    }
+
+    public void reportAllAvailable(){
+        ArrayList<Book> result = new ArrayList<Book>();
+        Type listType = new TypeToken<List<Book>>() {
+        }.getType();
+        try {
+            List<Book> books = new Gson().fromJson(new FileReader("C:\\Users\\Brook\\Documents\\puffin-nology\\Java\\lovecrafts-library\\books.json"), listType);
+            for (Book book: books){
+                if (!book.isLoaned()){
+                    result.add(book);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(result.toString().replace(",", ""));
     }
 }
     //add librarian name/ id to book being loaned out

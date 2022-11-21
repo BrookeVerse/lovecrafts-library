@@ -10,7 +10,10 @@ public class Display {
     Scanner scanner = new Scanner(System.in);
     LibraryDatabase db = new LibraryDatabase();
     Librarian librarian = new Librarian();
+    Users user = new Users();
     public List<Librarian> allLibrians;
+    public List<Users> allUsers;
+    public Users loggedIn;
 
     public void welcomeMessage() throws IOException, CsvException {
 
@@ -47,7 +50,24 @@ public class Display {
                 System.out.println("ID not recognised");
             }
         } else if (answer.equalsIgnoreCase("2")) {
-            System.out.println("Coming soon...");
+            user.csvToJsonUsers();
+            allUsers = user.readJsonUsers();
+            System.out.println("Please log in!\nID:");
+            int id = scanner.nextInt();
+            if (allUsers.contains(allUsers.get(id -1))){
+                System.out.println("password:");
+                String password = scanner.next();
+                if (allUsers.get(id -1).getPassword().contains(password)){
+                    loggedIn = allUsers.get(id -1);
+                    System.out.println("Access granted!");
+                    userOptions();
+                } else {
+                    System.out.println("Incorrect Password, try again");
+                    logInScreen();
+                }
+            } else {
+                System.out.println("ID not recognised");
+            }
             logInScreen();
         } else {
             System.out.println("Did not recognise input, try again");
@@ -68,8 +88,10 @@ public class Display {
                 librarian.seeAllUsers();
                 librarianOptions();
             case "3":
+                librarian.reportAllLoaned();
                 librarianOptions();
             case "4":
+                librarian.reportAllAvailable();
                 librarianOptions();
             case "5":
                 allBooks();
@@ -94,7 +116,7 @@ public class Display {
         String choice = scanner.next();
         switch (choice){
             case "1":
-                db.lendBook();
+                db.lendBook(loggedIn);
                 userOptions();
                 break;
             case "2":

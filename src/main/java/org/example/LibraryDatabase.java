@@ -49,7 +49,7 @@ public class LibraryDatabase {
         return allBooks;
     }
 
-    public void lendBook() throws IOException, CsvException {
+    public void lendBook(Users loggedIn) throws IOException, CsvException {
         String loaned = "true";
         allBooks = readJson();
         System.out.println(allBooks.toString().replace(",", ""));
@@ -59,6 +59,7 @@ public class LibraryDatabase {
             System.out.println(allBooks.get(choice -1));
             if (!allBooks.get(choice -1).isLoaned()){
                 updateCSV(choice, loaned);
+                loggedIn.setBooksBorrowed(allBooks.get(choice -1));
                 System.out.println("You have lent " + allBooks.get(choice - 1) +"\nPlease bring it back in two weeks.");
                 csvToJson();
                 readJson();
